@@ -2,6 +2,7 @@ package git
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 	"testing"
 )
@@ -54,6 +55,34 @@ func TestParseIssue(t *testing.T) {
 					t.Errorf("issue hash mismatch %q != %q", test.hash, strslice[1])
 				}
 			}
+		})
+	}
+}
+
+func TestLog(t *testing.T) {
+	for i, test := range tests {
+		log := NewLogParser()
+		t.Run(fmt.Sprintf("parse-%d", i), func(t *testing.T) {
+			if err := log.Parse(test.raw); err != nil {
+				t.Fatalf("error parsing: %v", err)
+			}
+		})
+		t.Run(fmt.Sprintf("data-%d", i), func(t *testing.T) {
+			if test.issue != log.Issue() {
+				t.Errorf("issue mismatch %d != %d", test.issue, log.Issue())
+			}
+			if test.hash != log.Hash() {
+				t.Errorf("issue hash mismatch %q != %q", test.hash, log.Hash())
+			}
+			if log.Message() == "" {
+				t.Error("message is empty")
+			}
+		})
+		t.Run(fmt.Sprintf("markdown-%d", i), func(t *testing.T) {
+			u, _ := url.Parse("https://github.com/neh/project")
+			ret := log.ProjectMarkdown(*u)
+			//TODO: assert markdown valid
+			t.Log(ret)
 		})
 	}
 }
