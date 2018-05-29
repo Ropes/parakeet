@@ -3,6 +3,9 @@ Parakeet
 
 Attempting to reduce the suckery of releases accross Github projects. Parakeet foolishly pecks at `git log --oneline` output betweeen git commits to add complete github link to originating Github issues for documentation.
 
+![](https://media.giphy.com/media/ceHKRKMR6Ojao/giphy.gif)
+[source](https://giphy.com/gifs/bird-explosion-parakeet-ceHKRKMR6Ojao)
+
 Expects the Github "Squash and Merge" notation as Git log lines: "{hash} {PR title message} {Issue Number}"
 
 
